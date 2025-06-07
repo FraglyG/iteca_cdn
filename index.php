@@ -13,6 +13,8 @@ require_once 'auth.php';
 $request_uri = $_SERVER['REQUEST_URI'];
 $path = parse_url($request_uri, PHP_URL_PATH);
 
+error_log("[REQUEST] Method: " . $_SERVER['REQUEST_METHOD'] . ", Path: " . $path);
+
 // Health Check:
 if ($path === '/health') {
     echo json_encode(['status' => 'ok']);
@@ -41,13 +43,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && preg_match('/^\/(\d+)\/([a-f0-9\-]+\
 
 // File Upload:
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/upload') {
+    error_log("[UPLOAD] Starting file upload process");
+    
     $user = authenticate();
     
     if (!$user) {
+        error_log("[UPLOAD] Authentication failed");
         http_response_code(401);
         echo json_encode(['error' => 'Unauthorized']);
         exit;
     }
+    
+    error_log("[UPLOAD] User authenticated: " . json_encode($user));
     
     if (!isset($_FILES['file'])) {
         http_response_code(400);
@@ -64,9 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/upload') {
         echo json_encode(['error' => 'Invalid file type']);
         exit;
     }
-    
-    // Create user dir if it doesn't exist
-    $user_dir = DATA_DIR . "/{$user['id']}";
+      // Create user dir if it doesn't exist
+    $user_dir = DATA_DIR . "/{$user['userId']}";
     if (!is_dir($user_dir)) {
         mkdir($user_dir, 0755, true);
     }
@@ -76,9 +82,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/upload') {
     $unique_id = bin2hex(random_bytes(16));
     $filename = "{$unique_id}.{$extension}";
     $file_path = "{$user_dir}/{$filename}";
-    
-    if (move_uploaded_file($file['tmp_name'], $file_path)) {
-        $file_url = BASE_URL . "/{$user['id']}/{$filename}";
+      if (move_uploaded_file($file['tmp_name'], $file_path)) {
+        $file_url = BASE_URL . "/{$user['userId']}/{$filename}";
         echo json_encode([
             'success' => true,
             'url' => $file_url,

@@ -2,6 +2,9 @@
 function authenticate() {
     error_log("[AUTH] Starting authentication process");
     
+    // Debug: Log all available cookies
+    error_log("[AUTH] All cookies received: " . json_encode($_COOKIE));
+    
     // Get 'accessToken' from req cookies
     $access_token = $_COOKIE['accessToken'] ?? null;
     if (!$access_token) {

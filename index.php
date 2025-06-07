@@ -13,6 +13,12 @@ require_once 'auth.php';
 $request_uri = $_SERVER['REQUEST_URI'];
 $path = parse_url($request_uri, PHP_URL_PATH);
 
+// Health Check:
+if ($path === '/health') {
+    echo json_encode(['status' => 'ok']);
+    exit;
+}
+
 // File Server:
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && preg_match('/^\/(\d+)\/([a-f0-9\-]+\.(png|jpg|jpeg|gif|webp))$/i', $path, $matches)) {
     $user_id = $matches[1];

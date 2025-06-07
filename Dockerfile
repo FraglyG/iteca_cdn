@@ -8,13 +8,13 @@ WORKDIR /var/www/html
 COPY . .
 
 RUN mkdir -p /var/www/html/data && \
-    chown -R www-data:www-data /var/www/html/data && \
+    chown -R www-data:www-data /var/www/html && \
+    chmod -R 644 /var/www/html && \
+    chmod 755 /var/www/html && \
+    chmod 644 /var/www/html/.htaccess && \
+    chmod 644 /var/www/html/*.php && \
     chmod -R 755 /var/www/html/data
 COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
-
-RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 644 /var/www/html && \
-    chmod -R 755 /var/www/html/data
 
 EXPOSE 80
 CMD ["apache2-foreground"]

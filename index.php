@@ -92,8 +92,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/upload') {
             'filename' => $filename
         ]);
     } else {
+        $error_msg = error_get_last();
         http_response_code(500);
-        echo json_encode(['error' => 'Failed to upload file']);
+        echo json_encode(['error' => 'Failed to upload file: ' . ($error_msg ? $error_msg['message'] : 'Unknown error')]);
     }
     exit;
 }

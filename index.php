@@ -15,6 +15,13 @@ $path = parse_url($request_uri, PHP_URL_PATH);
 
 error_log("[REQUEST] Method: " . $_SERVER['REQUEST_METHOD'] . ", Path: " . $path);
 
+// Debug: Check if path matches file server pattern
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $pattern = '/^\/(\d+)\/([a-f0-9\-]+\.(png|jpg|jpeg|gif|webp))$/i';
+    $matches_pattern = preg_match($pattern, $path);
+    error_log("[DEBUG] GET request - Path: $path, Matches pattern: " . ($matches_pattern ? 'YES' : 'NO'));
+}
+
 // Health Check:
 if ($path === '/health') {
     echo json_encode(['status' => 'ok']);
@@ -26,7 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && preg_match('/^\/(\d+)\/([a-f0-9\-]+\
     $user_id = $matches[1];
     $filename = $matches[2];
     
+    error_log("[FILE_SERVER] Requested path: " . $path);
+    error_log("[FILE_SERVER] User ID: " . $user_id);
+    error_log("[FILE_SERVER] Filename: " . $filename);
+    
     $file_path = DATA_DIR . "/{$user_id}/{$filename}";
+    error_log("[FILE_SERVER] Looking for file at: " . $file_path);
+    error_log("[FILE_SERVER] File exists: " . (file_exists($file_path) ? 'YES' : 'NO'));
     
     if (!file_exists($file_path)) {
         http_response_code(404);
@@ -81,9 +94,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/upload') {
     $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
     $unique_id = bin2hex(random_bytes(16));
     $filename = "{$unique_id}.{$extension}";
-    $file_path = "{$user_dir}/{$filename}";
-      if (move_uploaded_file($file['tmp_name'], $file_path)) {
+    $file_path = "{$user_dir}/{$filename}";    if (move_uploaded_file($file['tmp_name'], $file_path)) {
         $file_url = BASE_URL . "/{$user['userId']}/{$filename}";
+        error_log("[UPLOAD] File uploaded successfully to: " . $file_path);
+        error_log("[UPLOAD] Generated URL: " . $file_url);
+        error_log("[UPLOAD] Generated filename: " . $filename);
         echo json_encode([
             'success' => true,
             'url' => $file_url,

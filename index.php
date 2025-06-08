@@ -17,7 +17,7 @@ error_log("[REQUEST] Method: " . $_SERVER['REQUEST_METHOD'] . ", Path: " . $path
 
 // Debug: Check if path matches file server pattern
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-    $pattern = '/^\/(\d+)\/([a-f0-9\-]+\.(png|jpg|jpeg|gif|webp))$/i';
+    $pattern = '/^\/([a-zA-Z0-9\-]+)\/([a-f0-9]+\.(png|jpg|jpeg|gif|webp))$/i';
     $matches_pattern = preg_match($pattern, $path);
     error_log("[DEBUG] GET request - Path: $path, Matches pattern: " . ($matches_pattern ? 'YES' : 'NO'));
 }
@@ -29,7 +29,7 @@ if ($path === '/health') {
 }
 
 // File Server:
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && preg_match('/^\/(\d+)\/([a-f0-9\-]+\.(png|jpg|jpeg|gif|webp))$/i', $path, $matches)) {
+if ($_SERVER['REQUEST_METHOD'] === 'GET' && preg_match('/^\/([a-zA-Z0-9\-]+)\/([a-f0-9]+\.(png|jpg|jpeg|gif|webp))$/i', $path, $matches)) {
     $user_id = $matches[1];
     $filename = $matches[2];
     

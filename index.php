@@ -68,11 +68,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && $path === '/upload') {
         http_response_code(400);
         echo json_encode(['error' => 'Invalid file type']);
         exit;
-    }
-      // Create user dir if it doesn't exist
+    }      
+    
+    // Create user dir if it doesn't exist
     $user_dir = DATA_DIR . "/{$user['userId']}";
     if (!is_dir($user_dir)) {
-        mkdir($user_dir, 0755, true);
+        if (!mkdir($user_dir, 0755, true)) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Failed to create user directory: ' . error_get_last()['message']]);
+            exit;
+        }
     }
     
     // Generate UUID

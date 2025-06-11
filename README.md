@@ -4,8 +4,8 @@ A minimal PHP-based file storage server with JWT authentication created for a un
 
 ## Other Services
 
-Backend: https://github.com/FraglyG/iteca_backend
-Frontend: https://github.com/FraglyG/gigtree_frontend
+- **Backend**: https://github.com/FraglyG/iteca_backend
+- **Frontend**: https://github.com/FraglyG/gigtree_frontend
 
 ## Features
 

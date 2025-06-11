@@ -1,10 +1,15 @@
 # PHP Storage Server
 
-A minimal PHP-based file storage server with JWT authentication.
+A minimal PHP-based file storage server with JWT authentication created for a university project.
+
+## Other Services
+
+Backend: https://github.com/FraglyG/iteca_backend
+Frontend: https://github.com/FraglyG/gigtree_frontend
 
 ## Features
 
-- JWT-based authentication via cookies
+- JWT-based authentication via cookies (through the backend)
 - File upload with user-specific directories
 - Direct file serving via URLs
 - Support for common image formats (PNG, JPG, JPEG, GIF, WebP)

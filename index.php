@@ -1,14 +1,14 @@
 <?php
+require_once 'config.php';
+require_once 'auth.php';
+
 header('Content-Type: application/json');
-header('Access-Control-Allow-Origin: https://gigtree.isdev.co');
+header('Access-Control-Allow-Origin: ' . FRONTEND_URL);
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Credentials: true');
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') exit(0);
-
-require_once 'config.php';
-require_once 'auth.php';
 
 $request_uri = $_SERVER['REQUEST_URI'];
 $path = parse_url($request_uri, PHP_URL_PATH);

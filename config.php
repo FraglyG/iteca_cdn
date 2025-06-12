@@ -17,6 +17,7 @@ loadEnv(__DIR__ . '/.env');
 define('DATA_DIR', __DIR__ . '/data');
 define('BACKEND_URL', $_ENV['BACKEND_URL'] ?? 'http://localhost:3000');
 define('BASE_URL', $_ENV['BASE_URL'] ?? 'http://localhost:8000');
+define('FRONTEND_URL', $_ENV['FRONTEND_URL'] ?? 'http://localhost:3001');
 
 // Create data directory if it doesn't exist
 if (!is_dir(DATA_DIR)) mkdir(DATA_DIR, 0755, true);

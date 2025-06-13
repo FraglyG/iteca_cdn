@@ -25,7 +25,7 @@ A minimal PHP-based file storage server with JWT authentication created for a un
 
 2. Start the PHP development server:
    ```bash
-   php -S localhost:8000
+   php -S localhost:8000 router.php
    ```
 
 ### Option 2: Docker

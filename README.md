@@ -21,6 +21,7 @@ A minimal PHP-based file storage server with JWT authentication created for a un
    ```
    BACKEND_URL=your_backend_url
    BASE_URL=your_storage_server_url
+   FRONTEND_URL=your_frontend_url
    ```
 
 2. Start the PHP development server:
